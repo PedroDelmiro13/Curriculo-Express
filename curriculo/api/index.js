@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.send('Hello from Express with Babel!');
+  res.send('Hello from Express with Babel!');
 });
 
 app.use("/api", routes);
@@ -37,10 +37,8 @@ async function curriculumDefault() {
     pessoaId: p1.id, 
   });
 
-  await Skill.bulkCreate([
-    { nome: "Java", nivel: "avançado", pessoaId: p1.id },
-    { nome: "Spring Boot", nivel: "intermediário", pessoaId: p1.id },
-  ]);
+  await Skill.create({ nome: "Java", nivel: "avançado", pessoaId: p1.id });
+  await Skill.create({ nome: "Spring Boot", nivel: "intermediário", pessoaId: p1.id });
 
   const p2 = await Pessoa.create({
     nome: "Maria Silva",
@@ -59,10 +57,8 @@ async function curriculumDefault() {
     pessoaId: p2.id,
   });
 
-  await Skill.bulkCreate([
-    { nome: "JavaScript", nivel: "avançado", pessoaId: p2.id },
-    { nome: "Node.js", nivel: "intermediário", pessoaId: p2.id },
-  ]);
+  await Skill.create({ nome: "JavaScript", nivel: "avançado", pessoaId: p2.id });
+  await Skill.create({ nome: "Node.js", nivel: "intermediário", pessoaId: p2.id });
 
   console.log("Seed concluído com 2 currículos!");
 }
