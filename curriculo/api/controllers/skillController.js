@@ -10,6 +10,7 @@ export const createSkill = async (req, res) => {
         const newSkill = await Skill.create({
             nome: req.body.nome,
             nivel: req.body.nivel,
+            pessoaId: req.body.pessoaId,
         });
         return res.status(201).json({ message: "created", data: newSkill });
     } catch (e) {

@@ -16,10 +16,62 @@ app.get('/', (req, res) => {
 app.use("/api", routes);
 
 const eraseDatabaseOnSync = true;
-  models.sequelize.sync({ force: eraseDatabaseOnSync })
-    .then(() => console.log("Banco sincronizado e tabelas criadas"))
-    .catch(err => console.error("Erro ao sincronizar banco:", err));
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+async function curriculumDefault() {
+  const { Pessoa, Formacao, Skill } = models;
+
+  const p1 = await Pessoa.create({
+    nome: "Pedro",
+    email: "pedrodelmiroexemplo@gmail.com",
+    phone: "5555-5555",
+    linkedin: "linkedin.com/in/delmiro",
+    github: "github.com/delmiro",
+  });
+
+  await Formacao.create({
+    instituicao: "UNICAP",
+    curso: "Sistemas para Internet",
+    nivel: "Superior",
+    inicio: "2024-03-07",
+    fim: "2026-06-07",
+    pessoaId: p1.id, 
+  });
+
+  await Skill.bulkCreate([
+    { nome: "Java", nivel: "avançado", pessoaId: p1.id },
+    { nome: "Spring Boot", nivel: "intermediário", pessoaId: p1.id },
+  ]);
+
+  const p2 = await Pessoa.create({
+    nome: "Maria Silva",
+    email: "maria@example.com",
+    phone: "88888-8888",
+    linkedin: "linkedin.com/in/maria",
+    github: "github.com/maria",
+  });
+
+  await Formacao.create({
+    instituicao: "UFRPE",
+    curso: "Engenharia da computação",
+    nivel: "Superior",
+    inicio: "2021-01-01",
+    fim: "2024-12-31",
+    pessoaId: p2.id,
+  });
+
+  await Skill.bulkCreate([
+    { nome: "JavaScript", nivel: "avançado", pessoaId: p2.id },
+    { nome: "Node.js", nivel: "intermediário", pessoaId: p2.id },
+  ]);
+
+  console.log("Seed concluído com 2 currículos!");
+}
+
+models.sequelize
+  .sync({ force: eraseDatabaseOnSync })
+  .then(async () => {
+    console.log("Banco sincronizado e tabelas criadas");
+    await curriculumDefault();
+    app.listen(port, () => console.log(`Server running on port ${port}`));
+  })
+  .catch((err) => console.error("Erro ao sincronizar banco:", err));

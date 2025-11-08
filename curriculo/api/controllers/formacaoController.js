@@ -13,6 +13,7 @@ export const createFormacao = async (req, res) => {
             nivel: req.body.nivel,
             inicio: req.body.inicio,
             fim: req.body.fim,
+            pessoaId: req.body.pessoaId,
         });
         return res.status(201).json({ message: "Formação criada", data: newFormacao });
     } catch (e) {
@@ -36,14 +37,14 @@ export const updateFormacao = async (req, res) => {
 
 export const deleteFormacao = async (req, res) => {
     try {
-            const deleted = await Formacao.destroy({ where: { id: req.params.id } });
-            if (!deleted) {
-                return res.status(404).json({ error: "Formação não encontrada" });
-            }
-            return res.status(204).send();
-        } catch (e) {
-            return res.status(500).json({ error: e.message });
+        const deleted = await Formacao.destroy({ where: { id: req.params.id } });
+        if (!deleted) {
+            return res.status(404).json({ error: "Formação não encontrada" });
         }
+        return res.status(204).send();
+    } catch (e) {
+        return res.status(500).json({ error: e.message });
+    }
 }
 
 export const getFormacao = async (req, res) => {
