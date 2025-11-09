@@ -79,3 +79,5 @@ models.sequelize
     app.listen(port, () => console.log(`Server running on port ${port}`));
   })
   .catch((err) => console.error("Erro ao sincronizar banco:", err));
+
+export default app;
