@@ -42,13 +42,4 @@ Skill.belongsTo(Pessoa, {
   as: "pessoa",
 });
 
-(async () => {
-  try {
-    await sequelize.sync({ alter: true });
-    console.log("Database synchronized successfully");
-  } catch (err) {
-    console.error("Error syncing database:", err);
-  }
-})();
-
 export default { sequelize, Pessoa, Skill, Formacao };
